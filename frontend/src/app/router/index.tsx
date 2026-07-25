@@ -1,9 +1,9 @@
 /* eslint-disable react-refresh/only-export-components */
 import { createBrowserRouter } from 'react-router-dom';
+import DashboardLayout from '../layouts/DashboardLayout';
 
 // We will eventually import these from your 'features' folders!
 // For now, these are placeholder components.
-const Dashboard = () => <div className="p-8">Dashboard Home</div>;
 const Tasks = () => <div className="p-8">Tasks List</div>;
 const Settings = () => <div className="p-8">Settings</div>;
 
@@ -16,7 +16,7 @@ export const router = createBrowserRouter([
         {/* Your Sidebar/Header components will go here */}
         <main className="flex-1">
           {/* We will eventually render an <Outlet /> here so child routes inject inside the layout */}
-          <Dashboard />
+          <DashboardLayout />
         </main>
       </div>
     ),
