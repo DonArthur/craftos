@@ -1,32 +1,32 @@
-/* eslint-disable react-refresh/only-export-components */
-import { createBrowserRouter } from 'react-router-dom';
-import DashboardLayout from '../layouts/DashboardLayout';
+import { createBrowserRouter, Navigate } from 'react-router-dom';
+import { DefaultLayout } from '../layouts/DefaultLayout';
+import { AuthLayout } from '../layouts/AuthLayout';
 
-// We will eventually import these from your 'features' folders!
-// For now, these are placeholder components.
-const Tasks = () => <div className="p-8">Tasks List</div>;
-const Settings = () => <div className="p-8">Settings</div>;
+import { DashboardPage } from '@/features/dashboard/pages/DashboardPage';
+import { TasksPage } from '@/features/tasks/pages/TasksPage';
+import { ProjectsPage } from '@/features/projects/pages/ProjectsPage';
+import { SettingsPage } from '@/features/settings/pages/SettingsPage';
+import { LoginPage } from '@/features/login/pages/LoginPage';
 
 export const router = createBrowserRouter([
   {
+    // The main app wrapper
     path: '/',
-    // This element will act as your main layout wrapper (Sidebar, Header, etc.)
-    element: (
-      <div className="min-h-screen w-full bg-background">
-        {/* Your Sidebar/Header components will go here */}
-        <main className="flex-1">
-          {/* We will eventually render an <Outlet /> here so child routes inject inside the layout */}
-          <DashboardLayout />
-        </main>
-      </div>
-    ),
+    element: <DefaultLayout />,
+    children: [
+      { index: true, element: <DashboardPage /> }, // Loads at '/'
+      { path: 'tasks', element: <TasksPage /> },   // Loads at '/tasks'
+      { path: 'projects', element: <ProjectsPage /> },   // Loads at '/projects'
+      { path: 'settings', element: <SettingsPage /> }, // Loads at '/settings'
+    ],
   },
   {
-    path: '/tasks',
-    element: <Tasks />,
-  },
-  {
-    path: '/settings',
-    element: <Settings />,
+    // Keeping Auth separate makes sense so the login screen doesn't show the sidebar!
+    path: '/auth',
+    element: <AuthLayout />,
+    children: [
+      { index: true, element: <Navigate to="login" replace /> },
+      { path: 'login', element: <LoginPage /> },
+    ],
   },
 ]);
